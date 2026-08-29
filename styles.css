@@ -1138,8 +1138,8 @@ h1 em {
 
 .fh-ft-cl__grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: clamp(34px, 6vw, 96px);
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: clamp(34px, 4vw, 72px);
   padding-bottom: clamp(48px, 7vw, 84px);
 }
 
@@ -1226,6 +1226,13 @@ h1 em {
   .pricelist__group--barba,
   .pricelist__group--trattamenti {
     grid-area: auto;
+  }
+}
+
+/* Footer a 4 colonne: sotto i 1000px passa a 2x2 prima di impilarsi */
+@media (max-width: 1000px) {
+  .fh-ft-cl__grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

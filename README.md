@@ -34,7 +34,9 @@ disattivato restano leggibili identità, listino, orari, indirizzo e contatti.
 │   ├── 12/13/14-gallery-*.jpg  # interni del locale
 │   └── VideoTelefono.mp4   # reel nel mockup telefono
 └── legal/
-    └── privacy.html        # informativa — DA REDIGERE (noindex)
+    ├── legal.css           # stile delle sole pagine legali (non tocca styles.css)
+    ├── privacy.html        # informativa IT (noindex, fuori sitemap)
+    └── privacy-en.html     # informativa EN (noindex, fuori sitemap)
 ```
 
 ## Server locale
@@ -91,11 +93,15 @@ inventario e l'informativa **prima** di attivare l'integrazione.
 
 | Documento | Stato |
 |---|---|
-| `legal/privacy.html` | **DA REDIGERE** — pagina volutamente vuota su indicazione del committente. È `noindex, nofollow` ed è esclusa da `sitemap.xml`. Va compilata e riportata a `index, follow` prima di considerare il sito pubblicabile. |
+| `legal/privacy.html` (IT) e `legal/privacy-en.html` (EN) | **REDATTE, DA VALIDARE DAL TITOLARE.** Adattate dal modello usato per un altro sito dello studio e riscritte sulla configurazione reale di AM7 (WhatsApp al posto di Facebook, video locale al posto del PDF, mappa disegnata in CSS al posto dello screenshot). Sono `noindex, follow` per scelta ed escluse da `sitemap.xml`: è la stessa impostazione dell'altro sito, non uno stato di bozza. |
 | Cookie policy | Non prevista: nessun cookie né strumento di tracciamento. Da introdurre solo se cambia la configurazione tecnica. |
 
 Il contenuto della privacy va verificato dal titolare o da un professionista competente: non va
 copiato da altri siti né generato automaticamente.
+
+Le pagine in `legal/` caricano `../styles.css` per i token del design system e poi `legal.css`
+per i componenti tipici di un documento lungo (header semplice, sezioni numerate, selettore
+di lingua). `legal.css` non ridefinisce variabili e non ha effetto sul sito principale.
 
 ## Dati duplicati — aggiornare ovunque
 
@@ -106,12 +112,19 @@ contenuto visibile, dati strutturati e SEO locale entrano in conflitto.
 |---|---|---|
 | Telefono | +39 327 245 9352 | `index.html`: link `tel:` in hero / prenota / footer, testo `.booking__proof`, JSON-LD `telephone`, `og:description` e `twitter:description` · `404.html` · `legal/privacy.html` · questo README |
 | WhatsApp | `wa.me/393272459352` | `index.html`, 3 occorrenze (hero, listino, prenota) |
-| Indirizzo | Via Vittorio Emanuele, 91 — Bra (CN) | `index.html`: `.hero__meta`, sezione "Chi siamo", `address` in "Dove trovarci", `address` nel footer, `meta description`, JSON-LD `address` · `404.html` · `legal/privacy.html` |
+| Indirizzo **operativo** (il negozio) | Via Vittorio Emanuele, **91** — Bra (CN) | `index.html`: `.hero__meta`, sezione "Chi siamo", `address` in "Dove trovarci", `address` nella colonna "Contatti" del footer, `meta description`, JSON-LD `address` · `404.html` · `legal/privacy.html` |
+| **Sede legale** (diversa dal negozio) | Via Vittorio Emanuele, **159** — Bra (CN) | solo colonna "Dati legali" del footer di `index.html`. **Non** entra nel JSON-LD: `address` deve restare l'indirizzo dove il cliente si presenta, cioè il 91. |
 | Orari | Mar-Sab 09:00-12:00 / 13:00-20:00; Lun e Dom chiuso | `index.html`: `.hero__meta`, testo sezione "Orari", card giorno per giorno, footer, JSON-LD `openingHoursSpecification` |
 | Listino | 11 voci da 5 a 50 euro | `index.html`: sezione "Servizi & prezzi" **e** JSON-LD `hasOfferCatalog` |
-| Ragione sociale / P.IVA | AM7 BARBER DI OUALID AHMED · 04075780041 | footer di `index.html`, JSON-LD `legalName` e `vatID`, `legal/privacy.html` |
+| Ragione sociale | AM7 BARBER DI OUALID AHMED | `index.html`: colonna "Dati legali" **e** barra legale in fondo al footer (compare due volte, di proposito) · JSON-LD `legalName` · `legal/privacy.html` |
+| P.IVA | 04075780041 | `index.html`: colonna "Dati legali" del footer · JSON-LD `vatID` · `legal/privacy.html` |
+| Email | info@am7barberstudio.it | `legal/privacy.html` e `legal/privacy-en.html` (sezioni 1 e 9). **Non** è ancora nel footer del sito né nel JSON-LD. |
 | Instagram | @am7_barberstudio | sezione social, footer, JSON-LD `sameAs` |
 | Dominio | `https://am7barberstudio.it/` | `CNAME`, `robots.txt`, `sitemap.xml`, `canonical`, tutti gli `og:` / `twitter:`, tutti gli `@id` e gli URL nel JSON-LD |
+
+> **Attenzione ai due civici.** Il negozio è al **91**, la sede legale al **159**. Non sono un
+> refuso e non vanno unificati: il 91 è quello che deve comparire in mappa, dati strutturati e
+> contatti, il 159 solo tra i dati legali.
 
 ## Come aggiornare i contenuti ricorrenti
 
@@ -123,7 +136,7 @@ contenuto visibile, dati strutturati e SEO locale entrano in conflitto.
 ## Dati ancora da confermare
 
 - [ ] **CAP 12042** in `address.postalCode` del JSON-LD: è il CAP di Bra ma non compare sul sito. Confermare o rimuovere.
-- [ ] **Email di contatto:** non esiste sul sito. Serve per l'informativa privacy e potrebbe essere aggiunta al JSON-LD.
+- [ ] **La casella `info@am7barberstudio.it` deve esistere e essere letta.** È indicata nell'informativa come recapito per l'esercizio dei diritti GDPR: va configurata sul dominio prima della pubblicazione, altrimenti le richieste degli interessati cadono nel vuoto.
 - [ ] **Segnaposto nella sezione "Chi siamo"** di `index.html`: `[ETÀ]`, `[NOME SCUOLA]`, `[CITTÀ]`, `[N]` e `[ANNO]` (3 volte) sono **inventati e visibili in pagina**. Vanno sostituiti con i dati reali del titolare prima della pubblicazione.
 - [ ] **Foto del titolare** nella stessa sezione: al momento c'è un placeholder grafico, non un'immagine.
 - [ ] **Liberatoria** per le persone ritratte nelle foto dei tagli e nel video.
@@ -131,7 +144,9 @@ contenuto visibile, dati strutturati e SEO locale entrano in conflitto.
 ## Controlli prima della pubblicazione
 
 - [ ] Nessun segnaposto `[...]` residuo in `index.html`.
-- [ ] `legal/privacy.html` redatta, `robots` riportato a `index, follow`, pagina aggiunta a `sitemap.xml`.
+- [ ] Informative privacy IT/EN riviste e approvate dal titolare (o da un professionista) prima della pubblicazione.
+- [ ] Casella `info@am7barberstudio.it` attiva e monitorata.
+- [ ] Switch di lingua IT/EN funzionante in entrambe le direzioni; `hreflang` reciproci corretti.
 - [ ] `git status` pulito, nessun file di lavoro o segreto tracciato.
 - [ ] Console del browser senza errori, nessun 404 sugli asset, nessun mixed content.
 - [ ] Sessione pulita nel pannello Rete: confermare zero richieste a terze parti al caricamento.
