@@ -4,7 +4,7 @@
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function initCarousel(root) {
-    var track = root.querySelector('.gallery__track');
+    var track = root.querySelector('[data-track]') || root.querySelector('.gallery__track');
     var cards = track ? Array.prototype.slice.call(track.children) : [];
     var previous = root.querySelector('[data-prev]');
     var next = root.querySelector('[data-next]');
@@ -20,10 +20,21 @@
       return first.getBoundingClientRect().width + parseFloat(styles.columnGap || styles.gap || 0);
     }
 
+    /* Le frecce restano spente quando non c'e' nulla da scorrere
+       (es. tre card che entrano tutte nel viewport su desktop). */
+    function syncControls() {
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      var scrollable = maxScroll > 2;
+      if (previous) previous.disabled = !scrollable;
+      if (next) next.disabled = !scrollable;
+    }
+
     function go(direction) {
       var maxScroll = track.scrollWidth - track.clientWidth;
       var atStart = track.scrollLeft <= 2;
       var atEnd = track.scrollLeft >= maxScroll - 2;
+
+      if (maxScroll <= 2) return;
 
       if (direction > 0 && atEnd) {
         track.scrollTo({ left: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
@@ -74,6 +85,78 @@
     } else {
       isVisible = true;
       startAutoplay();
+    }
+
+    syncControls();
+    window.addEventListener('resize', syncControls);
+    if ('ResizeObserver' in window) new ResizeObserver(syncControls).observe(track);
+  }
+
+  /* Vetrina prodotti: tre slide che scorrono da sole, con pallini
+     cliccabili generati dalle didascalie delle slide stesse. */
+  function initSlideshow(root) {
+    var track = root.querySelector('[data-slideshow-track]');
+    var dotsBox = root.querySelector('[data-slideshow-dots]');
+    var slides = track ? Array.prototype.slice.call(track.children) : [];
+    var dots = [];
+    var index = 0;
+    var timer = null;
+    var isVisible = false;
+    var isPaused = false;
+
+    if (!track || slides.length < 2) return;
+
+    function show(next) {
+      index = (next + slides.length) % slides.length;
+      track.style.transform = 'translateX(' + (-index * 100) + '%)';
+      slides.forEach(function (slide, i) {
+        slide.setAttribute('aria-hidden', i === index ? 'false' : 'true');
+      });
+      dots.forEach(function (dot, i) {
+        dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+      });
+    }
+
+    function stopAuto() {
+      if (timer) window.clearInterval(timer);
+      timer = null;
+    }
+
+    function startAuto() {
+      stopAuto();
+      if (!reduceMotion && isVisible && !isPaused && !document.hidden) {
+        timer = window.setInterval(function () { show(index + 1); }, 4500);
+      }
+    }
+
+    if (dotsBox) {
+      slides.forEach(function (slide, i) {
+        var caption = slide.querySelector('figcaption');
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.setAttribute('aria-label', 'Vedi ' + (caption ? caption.textContent : 'immagine ' + (i + 1)));
+        dot.addEventListener('click', function () { show(i); startAuto(); });
+        dotsBox.appendChild(dot);
+        dots.push(dot);
+      });
+    }
+
+    root.addEventListener('mouseenter', function () { isPaused = true; stopAuto(); });
+    root.addEventListener('mouseleave', function () { isPaused = false; startAuto(); });
+    root.addEventListener('focusin', function () { isPaused = true; stopAuto(); });
+    root.addEventListener('focusout', function () { isPaused = false; startAuto(); });
+    document.addEventListener('visibilitychange', startAuto);
+
+    show(0);
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        isVisible = entries[0].isIntersecting;
+        startAuto();
+      }, { threshold: 0.35 }).observe(root);
+    } else {
+      isVisible = true;
+      startAuto();
     }
   }
 
@@ -172,6 +255,7 @@
   }
 
   document.querySelectorAll('[data-carousel]').forEach(initCarousel);
+  document.querySelectorAll('[data-slideshow]').forEach(initSlideshow);
   document.querySelectorAll('[data-reel]').forEach(initReel);
 
   var year = document.querySelector('[data-year]');

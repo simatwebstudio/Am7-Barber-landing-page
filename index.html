@@ -230,8 +230,8 @@
             <div class="price-row"><dt>Pulizia viso</dt><dd>30€</dd></div>
             <div class="price-row"><dt>Stiratura</dt><dd>da 30€</dd></div>
             <div class="price-row"><dt>Tinta</dt><dd>da 30€</dd></div>
-            <div class="price-row"><dt>Colpi di sole</dt><dd>50€</dd></div>
-            <div class="price-row"><dt>Permanente</dt><dd>40€</dd></div>
+            <div class="price-row"><dt>Colpi di sole</dt><dd>da 50€</dd></div>
+            <div class="price-row"><dt>Permanente</dt><dd>da 40€</dd></div>
             <div class="price-row"><dt>Sopracciglia</dt><dd>5€</dd></div>
             <div class="price-row"><dt>Lozione</dt><dd>5€</dd></div>
           </dl>
@@ -298,16 +298,96 @@
         <p>Un ambiente essenziale, luminoso e curato. Ogni postazione è pensata per lavorare bene e farti sentire a tuo agio.</p>
       </header>
 
-      <div class="shop__gallery">
-        <figure class="shop__main media-frame">
-          <img src="assets/12-gallery-1787773040120-gallery1.jpg" width="788" height="1400" alt="Postazioni e poltrone all'interno di AM7 Barber" loading="lazy" decoding="async">
-        </figure>
-        <figure class="shop__side media-frame">
-          <img src="assets/13-gallery-1787773043901-gallery2.jpg" width="788" height="1400" alt="Zona attesa e vetrina di AM7 Barber" loading="lazy" decoding="async">
-        </figure>
-        <figure class="shop__side media-frame">
-          <img src="assets/14-gallery-1787773047858-gallery3.jpg" width="788" height="1400" alt="Specchio illuminato e dettaglio degli arredi di AM7 Barber" loading="lazy" decoding="async">
-        </figure>
+      <!-- Video di presentazione del locale.
+           PLACEHOLDER in attesa del file definitivo: sostituire il blocco
+           .shop__video-placeholder con
+           <video class="shop__video-media" src="assets/VideoLocale.mp4" poster="..."
+                  controls playsinline preload="metadata"></video> -->
+      <div class="shop__video media-frame">
+        <div class="shop__video-placeholder">
+          <span class="shop__video-icon" aria-hidden="true"></span>
+          <p class="shop__video-title">Video del locale in arrivo</p>
+          <p class="shop__video-note">Presto qui trovi il tour dello studio, postazione per postazione.</p>
+        </div>
+      </div>
+
+      <div class="shop__slider" data-carousel>
+        <div class="shop__slider-head">
+          <p class="shop__slider-label">Gli spazi</p>
+          <div class="gallery__controls gallery__controls--light" aria-label="Controlli immagini del locale">
+            <button type="button" data-prev aria-label="Immagine precedente">&larr;</button>
+            <button type="button" data-next aria-label="Immagine successiva">&rarr;</button>
+          </div>
+        </div>
+
+        <div class="shop__viewport">
+          <div class="shop__track" data-track tabindex="0" role="group" aria-label="Immagini del locale AM7 Barber">
+            <figure class="shop-card media-frame">
+              <img src="assets/12-gallery-1787773040120-gallery1.jpg" width="788" height="1400" alt="Postazioni e poltrone all'interno di AM7 Barber" loading="lazy" decoding="async">
+            </figure>
+            <figure class="shop-card media-frame">
+              <img src="assets/13-gallery-1787773043901-gallery2.jpg" width="788" height="1400" alt="Zona attesa e vetrina di AM7 Barber" loading="lazy" decoding="async">
+            </figure>
+            <figure class="shop-card media-frame">
+              <img src="assets/14-gallery-1787773047858-gallery3.jpg" width="788" height="1400" alt="Specchio illuminato e dettaglio degli arredi di AM7 Barber" loading="lazy" decoding="async">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--
+      ============================================================
+      SEZIONE "PRODOTTI IN VENDITA" — IMMAGINI DA SOSTITUIRE
+      ------------------------------------------------------------
+      Ogni <div class="media-placeholder"> va sostituito con:
+        <img src="assets/prodotti-capelli.jpg" width="..." height="..."
+             alt="..." loading="lazy" decoding="async">
+      Le tre slide scorrono in automatico ogni 4,5s (script.js,
+      initSlideshow): l'ordine delle slide e delle relative
+      didascalie deve restare allineato ai pallini di navigazione.
+      ============================================================
+    -->
+    <section class="bb-products-promo section section--dark" id="prodotti" aria-labelledby="products-title">
+      <div class="products__media media-frame" data-slideshow>
+        <div class="products__track" data-slideshow-track>
+          <figure class="products__slide">
+            <div class="media-placeholder media-placeholder--flat" role="img" aria-label="Prodotti per capelli in vendita da AM7 Barber, immagine in arrivo">
+              <span class="media-placeholder__mark" aria-hidden="true">AM7</span>
+              <span class="media-placeholder__label" aria-hidden="true">Prodotti per capelli · placeholder</span>
+            </div>
+            <figcaption>Prodotti per capelli</figcaption>
+          </figure>
+          <figure class="products__slide">
+            <div class="media-placeholder media-placeholder--flat" role="img" aria-label="Macchinette per capelli in vendita da AM7 Barber, immagine in arrivo">
+              <span class="media-placeholder__mark" aria-hidden="true">AM7</span>
+              <span class="media-placeholder__label" aria-hidden="true">Macchinette · placeholder</span>
+            </div>
+            <figcaption>Macchinette</figcaption>
+          </figure>
+          <figure class="products__slide">
+            <div class="media-placeholder media-placeholder--flat" role="img" aria-label="Creme e prodotti per la cura in vendita da AM7 Barber, immagine in arrivo">
+              <span class="media-placeholder__mark" aria-hidden="true">AM7</span>
+              <span class="media-placeholder__label" aria-hidden="true">Creme · placeholder</span>
+            </div>
+            <figcaption>Creme e cura</figcaption>
+          </figure>
+        </div>
+        <div class="products__dots" data-slideshow-dots aria-label="Scegli il prodotto da vedere"></div>
+      </div>
+
+      <div class="products__copy">
+        <p class="eyebrow">In vendita in studio</p>
+        <h2 id="products-title">Il taglio finisce qui.<br><em>La cura no.</em></h2>
+        <p>In studio trovi gli stessi prodotti che usiamo in poltrona: professionali, provati sul campo e scelti in base ai tuoi capelli. Nessun acquisto alla cieca.</p>
+        <ul class="products__list">
+          <li>Prodotti per capelli</li>
+          <li>Macchinette</li>
+          <li>Creme</li>
+        </ul>
+        <div class="actions">
+          <a class="btn" href="https://wa.me/393272459352?text=Ciao%20AM7%20Barber%2C%20vorrei%20informazioni%20sui%20prodotti%20in%20vendita." target="_blank" rel="noopener">Chiedi quale fa per te <span aria-hidden="true">↗</span></a>
+        </div>
       </div>
     </section>
 
