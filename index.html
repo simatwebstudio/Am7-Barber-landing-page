@@ -6,10 +6,113 @@
   <meta name="description" content="AM7 Barber a Bra: tagli personalizzati, barba, shampoo e trattamenti professionali in Via Vittorio Emanuele 91.">
   <meta name="theme-color" content="#080808">
   <title>AM7 Barber · Barberia a Bra</title>
+
+  <!-- Indicizzazione e URL canonico -->
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://am7barberstudio.it/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="it_IT">
+  <meta property="og:site_name" content="AM7 Barber">
+  <meta property="og:title" content="AM7 Barber · Barberia a Bra">
+  <meta property="og:description" content="Tagli, barba, shampoo e trattamenti professionali a Bra, in Via Vittorio Emanuele 91. Prenota su WhatsApp o al 327 245 9352.">
+  <meta property="og:url" content="https://am7barberstudio.it/">
+  <meta property="og:image" content="https://am7barberstudio.it/assets/social-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Marchio AM7 Barber">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AM7 Barber · Barberia a Bra">
+  <meta name="twitter:description" content="Tagli, barba, shampoo e trattamenti professionali a Bra, in Via Vittorio Emanuele 91. Prenota su WhatsApp o al 327 245 9352.">
+  <meta name="twitter:image" content="https://am7barberstudio.it/assets/social-cover.jpg">
+  <meta name="twitter:image:alt" content="Marchio AM7 Barber">
+
+  <!-- Icone e manifest -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/icons/favicon-48.png" sizes="48x48">
+  <link rel="icon" type="image/png" href="assets/icons/favicon-32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="assets/icons/favicon-16.png" sizes="16x16">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" sizes="180x180">
+  <link rel="manifest" href="manifest.json">
+
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://am7barberstudio.it/#website",
+        "url": "https://am7barberstudio.it/",
+        "name": "AM7 Barber",
+        "inLanguage": "it-IT",
+        "publisher": { "@id": "https://am7barberstudio.it/#business" }
+      },
+      {
+        "@type": "HairSalon",
+        "@id": "https://am7barberstudio.it/#business",
+        "name": "AM7 Barber",
+        "legalName": "AM7 BARBER DI OUALID AHMED",
+        "vatID": "04075780041",
+        "url": "https://am7barberstudio.it/",
+        "description": "Barberia a Bra: tagli personalizzati, barba, shampoo e trattamenti professionali in Via Vittorio Emanuele 91.",
+        "image": "https://am7barberstudio.it/assets/12-gallery-1787773040120-gallery1.jpg",
+        "logo": "https://am7barberstudio.it/assets/icons/icon-512.png",
+        "telephone": "+39 327 245 9352",
+        "founder": { "@type": "Person", "name": "Oualid Ahmed" },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Via Vittorio Emanuele, 91",
+          "addressLocality": "Bra",
+          "addressRegion": "CN",
+          "postalCode": "12042",
+          "addressCountry": "IT"
+        },
+        "areaServed": { "@type": "City", "name": "Bra" },
+        "hasMap": "https://maps.app.goo.gl/hkakDoScmhcbtXvq9",
+        "sameAs": ["https://www.instagram.com/am7_barberstudio/"],
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            "opens": "09:00",
+            "closes": "12:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            "opens": "13:00",
+            "closes": "20:00"
+          }
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Servizi AM7 Barber",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Taglio + Shampoo" }, "price": "20", "priceCurrency": "EUR" },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Barba" }, "price": "10", "priceCurrency": "EUR" },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Taglio + Barba" }, "price": "28", "priceCurrency": "EUR" },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rasatura barba" }, "price": "5", "priceCurrency": "EUR" },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pulizia viso" }, "price": "30", "priceCurrency": "EUR" },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Stiratura" }, "priceSpecification": { "@type": "PriceSpecification", "minPrice": "30", "priceCurrency": "EUR" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Tinta" }, "priceSpecification": { "@type": "PriceSpecification", "minPrice": "30", "priceCurrency": "EUR" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Colpi di sole" }, "price": "50", "priceCurrency": "EUR" },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Permanente" }, "price": "40", "priceCurrency": "EUR" },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sopracciglia" }, "price": "5", "priceCurrency": "EUR" },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Lozione" }, "price": "5", "priceCurrency": "EUR" }
+          ]
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Vai al contenuto</a>
@@ -320,6 +423,7 @@
     <div class="fh-ft-cl__legal">
       <span>AM7 BARBER DI OUALID AHMED</span>
       <span>P.IVA 04075780041</span>
+      <a href="legal/privacy.html">Privacy Policy</a>
       <span>© <span data-year>2026</span> AM7 BARBER</span>
     </div>
   </footer>

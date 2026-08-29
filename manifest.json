@@ -1,0 +1,18 @@
+{
+  "name": "AM7 Barber · Barberia a Bra",
+  "short_name": "AM7 Barber",
+  "description": "Tagli, barba e trattamenti professionali a Bra, in Via Vittorio Emanuele 91.",
+  "lang": "it",
+  "dir": "ltr",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "background_color": "#fdfdfd",
+  "theme_color": "#080808",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
