@@ -77,25 +77,102 @@
     }
   }
 
-  function initHotspots(root) {
-    var buttons = Array.prototype.slice.call(root.querySelectorAll('.hotspot'));
-    var detail = root.querySelector('.shop__detail');
+  /* Reel Instagram: il video parte quando la sezione entra in viewport,
+     a fine riproduzione la schermata scorre in automatico sul logo. */
+  function initReel(root) {
+    var stage = root.querySelector('[data-reel-stage]');
+    var video = root.querySelector('[data-reel-video]');
+    var screen = root.querySelector('.phone__screen');
+    var toggle = root.querySelector('[data-reel-toggle]');
+    var toggleLabel = root.querySelector('[data-reel-toggle-label]');
+    var sound = root.querySelector('[data-reel-sound]');
+    var bar = root.querySelector('[data-reel-bar]');
+    var replay = root.querySelector('[data-reel-replay]');
+    var inView = false;
 
-    if (!buttons.length || !detail) return;
+    if (!stage || !video) return;
 
-    buttons.forEach(function (button, index) {
-      button.addEventListener('click', function () {
-        buttons.forEach(function (item) { item.setAttribute('aria-pressed', 'false'); });
-        button.setAttribute('aria-pressed', 'true');
-        detail.querySelector('span').textContent = String(index + 1).padStart(2, '0');
-        detail.querySelector('strong').textContent = button.dataset.title;
-        detail.querySelector('p').textContent = button.dataset.copy;
-      });
+    function state(value) {
+      if (value === undefined) return stage.getAttribute('data-state');
+      stage.setAttribute('data-state', value);
+      return value;
+    }
+
+    function play() {
+      var attempt = video.play();
+      if (attempt && attempt.catch) {
+        attempt.catch(function () { /* autoplay bloccato dal browser: resta il tasto play */ });
+      }
+    }
+
+    function restart() {
+      state('video');
+      video.currentTime = 0;
+      if (bar) bar.style.width = '0%';
+      play();
+    }
+
+    video.addEventListener('play', function () {
+      stage.classList.add('is-playing');
+      if (toggleLabel) toggleLabel.textContent = 'Metti in pausa il video';
     });
+
+    video.addEventListener('pause', function () {
+      stage.classList.remove('is-playing');
+      if (toggleLabel) toggleLabel.textContent = 'Riproduci il video';
+    });
+
+    video.addEventListener('timeupdate', function () {
+      if (!bar || !video.duration) return;
+      bar.style.width = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+    });
+
+    video.addEventListener('ended', function () {
+      if (bar) bar.style.width = '100%';
+      state('logo');
+    });
+
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        if (state() === 'logo') restart();
+        else if (video.paused) play();
+        else video.pause();
+      });
+    }
+
+    if (replay) replay.addEventListener('click', restart);
+
+    if (sound) {
+      sound.addEventListener('click', function () {
+        video.muted = !video.muted;
+        sound.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
+        if (!video.muted && video.paused && state() !== 'logo') play();
+      });
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) video.pause();
+      else if (inView && !reduceMotion && state() !== 'logo') play();
+    });
+
+    state('video');
+
+    if ('IntersectionObserver' in window && screen) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        if (!inView) {
+          video.pause();
+          return;
+        }
+        if (reduceMotion) return;
+        if (state() === 'logo') restart();
+        else play();
+      }, { threshold: 0.5 }).observe(screen);
+    }
   }
 
   document.querySelectorAll('[data-carousel]').forEach(initCarousel);
-  document.querySelectorAll('[data-hotspots]').forEach(initHotspots);
+  document.querySelectorAll('[data-reel]').forEach(initReel);
 
   var year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();

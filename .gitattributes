@@ -1,2 +1,12 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Binari: mai normalizzare i fine riga
+*.woff2 binary
+*.woff  binary
+*.ttf   binary
+*.otf   binary
+*.jpg   binary
+*.jpeg  binary
+*.png   binary
+*.mp4   binary
