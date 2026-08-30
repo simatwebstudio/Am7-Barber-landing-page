@@ -141,7 +141,7 @@ contenuto visibile, dati strutturati e SEO locale entrano in conflitto.
 
 - [ ] **CAP 12042** in `address.postalCode` del JSON-LD: è il CAP di Bra ma non compare sul sito. Confermare o rimuovere.
 - [ ] **La casella `info@am7barberstudio.it` deve esistere e essere letta.** È indicata nell'informativa come recapito per l'esercizio dei diritti GDPR: va configurata sul dominio prima della pubblicazione, altrimenti le richieste degli interessati cadono nel vuoto.
-- [ ] **Anno di apertura dello studio**: nella sezione "Chi siamo" di `index.html` resta un `[ANNO]` **visibile in pagina**, l'unico segnaposto rimasto. Formazione e diploma sono confermati dal certificato appeso in studio (Tecnico dell'acconciatura, CNOS di Bra, 01/06/2023); del certificato non sono stati pubblicati data di nascita completa, numero e codice di accreditamento.
+- [x] **Sezione "Chi siamo"**: nessun segnaposto residuo. Formazione e diploma vengono dal certificato appeso in studio (Tecnico dell'acconciatura, CNOS di Bra, 01/06/2023), apertura 2026 confermata dal titolare. Del certificato non sono stati pubblicati data di nascita completa, numero e codice di accreditamento: dati personali non necessari su una pagina pubblica.
 - [ ] **Liberatoria** per le persone ritratte nelle foto dei tagli e nel video.
 
 ## Controlli prima della pubblicazione
