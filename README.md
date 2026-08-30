@@ -15,7 +15,7 @@ disattivato restano leggibili identità, listino, orari, indirizzo e contatti.
 .
 ├── index.html              # unica pagina di contenuto
 ├── styles.css              # design system e layout
-├── script.js               # carosello gallery, reel video, anno nel footer
+├── script.js               # caroselli, video del locale, reel video, anno nel footer
 ├── 404.html                # pagina di errore (noindex, fuori sitemap)
 ├── manifest.json           # identità per browser, display "browser"
 ├── robots.txt
@@ -32,6 +32,10 @@ disattivato restano leggibili identità, listino, orari, indirizzo e contatti.
 │   ├── logo-mark.png       # logo approvato, master delle icone
 │   ├── Taglio1-6.jpg       # galleria tagli
 │   ├── 12/13/14-gallery-*.jpg  # interni del locale
+│   ├── Proprietario.jpeg   # ritratto del titolare, sezione "Chi siamo"
+│   ├── Prodotti.jpeg       # scaffale prodotti, sezione "In vendita in studio"
+│   ├── VideoPresentazione.mp4        # video verticale, sezione "Dentro AM7"
+│   ├── VideoPresentazione-poster.jpg # fotogramma di copertina del video (t = 61,5s)
 │   └── VideoTelefono.mp4   # reel nel mockup telefono
 └── legal/
     ├── legal.css           # stile delle sole pagine legali (non tocca styles.css)
@@ -66,7 +70,7 @@ sito vive alla radice del dominio: se un giorno venisse pubblicato sotto sottoca
 | Fraunces v38, Inter v20 (woff2 variabili, self-hosted) | fonts.gstatic.com | SIL OFL 1.1 — testi in `assets/fonts/OFL-*.txt`, **non rimuovere** |
 | `assets/logo-mark.png` | logo fornito dal cliente | uso autorizzato |
 | `assets/icons/*`, `favicon.ico`, `assets/social-cover.jpg` | generati dal logo approvato | derivati, proporzioni originali, nessuna reinterpretazione |
-| Foto tagli e interni, `VideoTelefono.mp4` | materiale del cliente | **liberatoria da confermare** per le persone ritratte |
+| Foto tagli e interni, `Proprietario.jpeg`, `Prodotti.jpeg`, `VideoTelefono.mp4`, `VideoPresentazione.mp4` | materiale del cliente | **liberatoria da confermare** per le persone ritratte — il video di presentazione inquadra molte persone riconoscibili in strada |
 
 Dettagli sui font e su come rigenerarli: `assets/fonts/README.md`.
 
@@ -138,7 +142,6 @@ contenuto visibile, dati strutturati e SEO locale entrano in conflitto.
 - [ ] **CAP 12042** in `address.postalCode` del JSON-LD: è il CAP di Bra ma non compare sul sito. Confermare o rimuovere.
 - [ ] **La casella `info@am7barberstudio.it` deve esistere e essere letta.** È indicata nell'informativa come recapito per l'esercizio dei diritti GDPR: va configurata sul dominio prima della pubblicazione, altrimenti le richieste degli interessati cadono nel vuoto.
 - [ ] **Segnaposto nella sezione "Chi siamo"** di `index.html`: `[ETÀ]`, `[NOME SCUOLA]`, `[CITTÀ]`, `[N]` e `[ANNO]` (3 volte) sono **inventati e visibili in pagina**. Vanno sostituiti con i dati reali del titolare prima della pubblicazione.
-- [ ] **Foto del titolare** nella stessa sezione: al momento c'è un placeholder grafico, non un'immagine.
 - [ ] **Liberatoria** per le persone ritratte nelle foto dei tagli e nel video.
 
 ## Controlli prima della pubblicazione

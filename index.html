@@ -148,24 +148,18 @@
 
     <!--
       ============================================================
-      SEZIONE "CHI SIAMO" — DA COMPLETARE CON I DATI REALI
+      SEZIONE "CHI SIAMO" — TESTI DA COMPLETARE CON I DATI REALI
       ------------------------------------------------------------
-      1. IMMAGINE: sostituire il blocco <div class="media-placeholder">
-         con:  <img src="assets/titolare.jpg" width="..." height="..."
-                    alt="Oualid Ahmed, titolare di AM7 Barber" loading="lazy" decoding="async">
-      2. TESTO: tutti i segnaposto tra parentesi quadre [ ... ] sono
-         inventati e vanno sostituiti con le informazioni reali
-         (età, nome della scuola, città, anni di esperienza, anno di apertura).
-         L'unico dato certo è il nome del titolare, ricavato dalla ragione
-         sociale: "AM7 BARBER DI OUALID AHMED".
+      Tutti i segnaposto tra parentesi quadre [ ... ] sono inventati e
+      vanno sostituiti con le informazioni reali (età, nome della
+      scuola, città, anni di esperienza, anno di apertura).
+      L'unico dato certo è il nome del titolare, ricavato dalla ragione
+      sociale: "AM7 BARBER DI OUALID AHMED".
       ============================================================
     -->
     <section class="bw-about-craft section section--light" id="studio" aria-labelledby="about-title">
       <figure class="bw-about-craft__media media-frame">
-        <div class="media-placeholder" role="img" aria-label="Ritratto del titolare di AM7 Barber, immagine in arrivo">
-          <span class="media-placeholder__mark" aria-hidden="true">AM7</span>
-          <span class="media-placeholder__label" aria-hidden="true">Foto titolare · placeholder</span>
-        </div>
+        <img src="assets/Proprietario.jpeg" width="1536" height="2048" alt="Oualid Ahmed, titolare di AM7 Barber, al bancone dello studio" loading="lazy" decoding="async">
         <figcaption>Oualid Ahmed · titolare</figcaption>
       </figure>
 
@@ -298,18 +292,37 @@
         <p>Un ambiente essenziale, luminoso e curato. Ogni postazione è pensata per lavorare bene e farti sentire a tuo agio.</p>
       </header>
 
-      <!-- Video di presentazione del locale.
-           PLACEHOLDER in attesa del file definitivo: sostituire il blocco
-           .shop__video-placeholder con
-           <video class="shop__video-media" src="assets/VideoLocale.mp4" poster="..."
-                  controls playsinline preload="metadata"></video> -->
-      <div class="shop__video media-frame">
-        <div class="shop__video-placeholder">
-          <span class="shop__video-icon" aria-hidden="true"></span>
-          <p class="shop__video-title">Video del locale in arrivo</p>
-          <p class="shop__video-note">Presto qui trovi il tour dello studio, postazione per postazione.</p>
+      <!-- Video di presentazione del locale: file verticale 9:16, montato
+           al centro di una ribalta scura che ne incornicia i lati.
+           Niente controlli nativi: parte da solo e muto quando la cornice
+           entra in viewport (script.js, initShopVideo), l'audio e la pausa
+           restano sui due tasti sovrapposti. -->
+      <figure class="shop__video-stage">
+        <div class="shop__video media-frame" data-shopvideo>
+          <video
+            class="shop__video-media"
+            data-shopvideo-media
+            src="assets/VideoPresentazione.mp4"
+            poster="assets/VideoPresentazione-poster.jpg"
+            width="480"
+            height="848"
+            muted
+            playsinline
+            webkit-playsinline
+            preload="metadata"
+            aria-label="Video di presentazione dello studio AM7 Barber"></video>
+          <span class="shop__video-progress" aria-hidden="true"><i data-shopvideo-bar></i></span>
+          <button class="shop__video-sound" type="button" data-shopvideo-sound aria-pressed="false">
+            <span class="shop__video-sound-icon" aria-hidden="true"></span>
+            <span class="sr-only">Attiva audio del video</span>
+          </button>
+          <button class="shop__video-toggle" type="button" data-shopvideo-toggle>
+            <span class="shop__video-toggle-icon" aria-hidden="true"></span>
+            <span class="sr-only" data-shopvideo-toggle-label>Riproduci il video</span>
+          </button>
         </div>
-      </div>
+        <figcaption class="shop__video-caption">Il locale · video di presentazione</figcaption>
+      </figure>
 
       <div class="shop__slider" data-carousel>
         <div class="shop__slider-head">
@@ -336,45 +349,11 @@
       </div>
     </section>
 
-    <!--
-      ============================================================
-      SEZIONE "PRODOTTI IN VENDITA" — IMMAGINI DA SOSTITUIRE
-      ------------------------------------------------------------
-      Ogni <div class="media-placeholder"> va sostituito con:
-        <img src="assets/prodotti-capelli.jpg" width="..." height="..."
-             alt="..." loading="lazy" decoding="async">
-      Le tre slide scorrono in automatico ogni 4,5s (script.js,
-      initSlideshow): l'ordine delle slide e delle relative
-      didascalie deve restare allineato ai pallini di navigazione.
-      ============================================================
-    -->
     <section class="bb-products-promo section section--dark" id="prodotti" aria-labelledby="products-title">
-      <div class="products__media media-frame" data-slideshow>
-        <div class="products__track" data-slideshow-track>
-          <figure class="products__slide">
-            <div class="media-placeholder media-placeholder--flat" role="img" aria-label="Prodotti per capelli in vendita da AM7 Barber, immagine in arrivo">
-              <span class="media-placeholder__mark" aria-hidden="true">AM7</span>
-              <span class="media-placeholder__label" aria-hidden="true">Prodotti per capelli · placeholder</span>
-            </div>
-            <figcaption>Prodotti per capelli</figcaption>
-          </figure>
-          <figure class="products__slide">
-            <div class="media-placeholder media-placeholder--flat" role="img" aria-label="Macchinette per capelli in vendita da AM7 Barber, immagine in arrivo">
-              <span class="media-placeholder__mark" aria-hidden="true">AM7</span>
-              <span class="media-placeholder__label" aria-hidden="true">Macchinette · placeholder</span>
-            </div>
-            <figcaption>Macchinette</figcaption>
-          </figure>
-          <figure class="products__slide">
-            <div class="media-placeholder media-placeholder--flat" role="img" aria-label="Creme e prodotti per la cura in vendita da AM7 Barber, immagine in arrivo">
-              <span class="media-placeholder__mark" aria-hidden="true">AM7</span>
-              <span class="media-placeholder__label" aria-hidden="true">Creme · placeholder</span>
-            </div>
-            <figcaption>Creme e cura</figcaption>
-          </figure>
-        </div>
-        <div class="products__dots" data-slideshow-dots aria-label="Scegli il prodotto da vedere"></div>
-      </div>
+      <figure class="products__media media-frame">
+        <img src="assets/Prodotti.jpeg" width="1343" height="2048" alt="Espositore con i prodotti per capelli e per la barba in vendita da AM7 Barber" loading="lazy" decoding="async">
+        <figcaption>Prodotti in vendita</figcaption>
+      </figure>
 
       <div class="products__copy">
         <p class="eyebrow">In vendita in studio</p>

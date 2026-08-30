@@ -421,7 +421,7 @@ h1 em {
 
 .bw-about-craft__media img {
   object-position: center 42%;
-  filter: grayscale(1) contrast(1.04);
+  filter: contrast(1.04);
 }
 
 .bw-about-craft__media figcaption {
@@ -435,50 +435,6 @@ h1 em {
   font-size: .64rem;
   font-weight: 600;
   letter-spacing: .11em;
-  text-transform: uppercase;
-}
-
-.media-placeholder {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  min-height: 320px;
-  align-content: center;
-  justify-items: center;
-  gap: 14px;
-  padding: 24px;
-  background:
-    repeating-linear-gradient(-45deg, rgba(17, 17, 17, .055) 0 9px, transparent 9px 19px),
-    var(--soft);
-  color: var(--slate);
-  text-align: center;
-}
-
-.media-placeholder--flat {
-  min-height: 0;
-  /* spazio in basso per didascalia e pallini sovrapposti */
-  padding-bottom: 52px;
-  gap: 10px;
-}
-
-.media-placeholder--flat .media-placeholder__mark {
-  font-size: clamp(2rem, 4vw, 2.8rem);
-}
-
-.media-placeholder__mark {
-  color: #111111;
-  font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5vw, 3.6rem);
-  font-weight: 600;
-  letter-spacing: -.05em;
-  line-height: 1;
-  opacity: .3;
-}
-
-.media-placeholder__label {
-  font-size: .6rem;
-  font-weight: 600;
-  letter-spacing: .18em;
   text-transform: uppercase;
 }
 
@@ -715,13 +671,52 @@ h1 em {
 }
 
 /* 5 · Dentro AM7 */
+/* Il video di presentazione è verticale (480×848): invece di stirarlo su
+   tutta la larghezza lo si monta al centro di una ribalta scura, che riempie
+   la fascia della sezione e fa da cornice ai lati. */
+.shop__video-stage {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  overflow: hidden;
+  justify-items: center;
+  gap: clamp(16px, 2vw, 22px);
+  margin: 0;
+  padding: clamp(26px, 4vw, 56px) clamp(18px, 4vw, 48px);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, .1), transparent 62%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, .035) 0 12px, transparent 12px 24px),
+    var(--charcoal);
+}
+
+/* Stesso marchio in filigrana dell'hero, invertito per leggersi sullo scuro:
+   riempie i fianchi della ribalta senza aggiungere altri contenuti. */
+.shop__video-stage::before {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  /* volutamente più largo della ribalta: il riquadro del marchio esce
+     dai bordi e restano solo le lettere, tagliate dall'overflow. */
+  width: max(124%, 620px);
+  aspect-ratio: 1178 / 435;
+  transform: translate(-50%, -50%);
+  /* 110%: il file include un riquadro di contorno, ingrandirlo lo manda
+     fuori inquadratura e lascia solo le lettere. */
+  background: url('assets/logo-mark.png') center / 110% auto no-repeat;
+  filter: invert(1);
+  content: '';
+  opacity: .085;
+}
+
 .shop__video {
-  /* width esplicita: con aspect-ratio + min-height il browser altrimenti
-     ricava la larghezza dal rapporto e la card sfora il contenitore. */
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  min-height: clamp(260px, 30vw, 380px);
-  background: var(--charcoal);
+  /* rapporto esatto del sorgente: nessun ritaglio sui bordi. */
+  width: min(100%, 356px);
+  aspect-ratio: 480 / 848;
+  border: 1px solid rgba(253, 253, 253, .3);
+  background: #000000;
+  box-shadow: 0 26px 62px rgba(0, 0, 0, .48);
 }
 
 .shop__video-media {
@@ -731,54 +726,130 @@ h1 em {
   object-fit: cover;
 }
 
-.shop__video-placeholder {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  padding: 24px;
-  gap: 10px;
-  grid-template-columns: minmax(0, 1fr);
-  align-content: center;
-  justify-items: center;
-  text-align: center;
-  background:
-    radial-gradient(120% 120% at 50% 0%, rgba(255, 255, 255, .1), transparent 62%),
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, .035) 0 12px, transparent 12px 24px),
-    var(--charcoal);
-  color: var(--paper);
+/* Comandi propri al posto di quelli nativi: stessa grammatica del reel
+   Instagram più in basso, così i due video si comportano allo stesso modo. */
+.shop__video-progress {
+  position: absolute;
+  z-index: 1;
+  top: 14px;
+  right: 14px;
+  left: 14px;
+  overflow: hidden;
+  height: 3px;
+  border-radius: 999px;
+  /* traccia scura, non traslucida: il video ha molte inquadrature chiare
+     e una barra bianca su bianco sparirebbe. */
+  background: rgba(8, 8, 8, .45);
 }
 
-.shop__video-icon {
-  display: grid;
-  width: clamp(56px, 6vw, 74px);
-  aspect-ratio: 1;
-  place-items: center;
-  border: 1px solid rgba(253, 253, 253, .55);
-  border-radius: 50%;
-}
-
-.shop__video-icon::before {
-  content: "";
+.shop__video-progress i {
+  display: block;
   width: 0;
-  height: 0;
-  margin-left: 5px;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 16px solid var(--paper);
+  height: 100%;
+  background: var(--paper);
+  transition: width .2s linear;
 }
 
-.shop__video-title {
-  margin: 6px 0 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
-  line-height: 1.2;
+.shop__video-toggle {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  padding: 0;
+  border: 0;
+  inset: 0;
+  background: transparent;
+  /* il contorno di focus eredita currentColor: chiaro, per staccare dal video */
+  color: var(--paper);
+  cursor: pointer;
+  place-items: center;
 }
 
-.shop__video-note {
-  max-width: min(34ch, 100%);
-  margin: 0;
+.shop__video-toggle-icon {
+  position: relative;
+  display: block;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(253, 253, 253, .93);
+  color: #111111;
+  transition: opacity .35s var(--ease), transform .35s var(--ease);
+}
+
+.shop__video-toggle-icon::before {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 2px);
+  border-color: transparent transparent transparent currentColor;
+  border-style: solid;
+  border-width: 9px 0 9px 15px;
+  content: '';
+  transform: translate(-50%, -50%);
+}
+
+/* In riproduzione il tasto sparisce e torna solo al passaggio del mouse. */
+.shop__video.is-playing .shop__video-toggle-icon {
+  opacity: 0;
+  transform: scale(.84);
+}
+
+.shop__video.is-playing .shop__video-toggle:hover .shop__video-toggle-icon,
+.shop__video.is-playing .shop__video-toggle:focus-visible .shop__video-toggle-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.shop__video.is-playing .shop__video-toggle-icon::before {
+  left: calc(50% - 5px);
+  width: 5px;
+  height: 18px;
+  border: 0;
+  background: currentColor;
+}
+
+.shop__video.is-playing .shop__video-toggle-icon::after {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 5px);
+  width: 5px;
+  height: 18px;
+  background: currentColor;
+  content: '';
+  transform: translate(-50%, -50%);
+}
+
+.shop__video-sound {
+  position: absolute;
+  z-index: 3;
+  top: 26px;
+  right: 14px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(8, 8, 8, .62);
+  color: #ffffff;
+  cursor: pointer;
+  font-size: .55rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  line-height: 1;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.shop__video-sound-icon::before {
+  content: 'AUDIO OFF';
+}
+
+.shop__video-sound[aria-pressed='true'] .shop__video-sound-icon::before {
+  content: 'AUDIO ON';
+}
+
+.shop__video-caption {
   color: rgba(253, 253, 253, .72);
-  font-size: .84rem;
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
 }
 
 .shop__slider {
@@ -843,36 +914,16 @@ h1 em {
 }
 
 .products__media {
-  /* width esplicita: senza, aspect-ratio + min-height fanno ricavare
-     la larghezza dal rapporto e la card sfora il contenitore. */
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  min-height: 210px;
-  max-height: 360px;
+  /* scatto verticale dello scaffale: la cornice segue il rapporto del file
+     (1343×2048) così i ripiani restano tutti dentro l'inquadratura. */
+  width: min(100%, 392px);
+  aspect-ratio: 1343 / 2048;
+  margin: 0;
+  justify-self: start;
   background: var(--charcoal);
 }
 
-.products__track {
-  display: flex;
-  height: 100%;
-  transition: transform .6s var(--ease);
-}
-
-.products__slide {
-  position: relative;
-  flex: 0 0 100%;
-  height: 100%;
-  margin: 0;
-}
-
-.products__slide img,
-.products__slide .media-placeholder {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.products__slide figcaption {
+.products__media figcaption {
   position: absolute;
   bottom: 14px;
   left: 14px;
@@ -883,29 +934,6 @@ h1 em {
   font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
-}
-
-.products__dots {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  display: flex;
-  gap: 7px;
-}
-
-.products__dots button {
-  width: 26px;
-  height: 4px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(253, 253, 253, .42);
-  cursor: pointer;
-  transition: background-color .25s var(--ease);
-}
-
-.products__dots button[aria-current="true"] {
-  background: var(--paper);
 }
 
 .products__copy > h2 {
@@ -1488,8 +1516,8 @@ h1 em {
   }
 
   .products__media {
-    aspect-ratio: 3 / 2;
-    max-height: 300px;
+    width: min(100%, 360px);
+    justify-self: center;
   }
 
   .section__head {
@@ -1670,17 +1698,9 @@ h1 em {
     flex-basis: 86vw;
   }
 
-  .shop__video-placeholder {
-    padding: 18px;
-  }
-
   .products__list li {
     padding: 6px 11px;
     font-size: .66rem;
-  }
-
-  .shop__video-note {
-    font-size: .78rem;
   }
 
   .price-row {

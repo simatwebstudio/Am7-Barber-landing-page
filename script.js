@@ -92,71 +92,85 @@
     if ('ResizeObserver' in window) new ResizeObserver(syncControls).observe(track);
   }
 
-  /* Vetrina prodotti: tre slide che scorrono da sole, con pallini
-     cliccabili generati dalle didascalie delle slide stesse. */
-  function initSlideshow(root) {
-    var track = root.querySelector('[data-slideshow-track]');
-    var dotsBox = root.querySelector('[data-slideshow-dots]');
-    var slides = track ? Array.prototype.slice.call(track.children) : [];
-    var dots = [];
-    var index = 0;
-    var timer = null;
-    var isVisible = false;
-    var isPaused = false;
+  /* Video del locale: parte da solo e muto quando la cornice entra in
+     viewport, si ferma quando esce. Al posto dei controlli nativi ci sono
+     due tasti sovrapposti, play/pausa sull'intera superficie e audio. */
+  function initShopVideo(root) {
+    var video = root.querySelector('[data-shopvideo-media]');
+    var toggle = root.querySelector('[data-shopvideo-toggle]');
+    var toggleLabel = root.querySelector('[data-shopvideo-toggle-label]');
+    var sound = root.querySelector('[data-shopvideo-sound]');
+    var bar = root.querySelector('[data-shopvideo-bar]');
+    var inView = false;
 
-    if (!track || slides.length < 2) return;
+    if (!video) return;
 
-    function show(next) {
-      index = (next + slides.length) % slides.length;
-      track.style.transform = 'translateX(' + (-index * 100) + '%)';
-      slides.forEach(function (slide, i) {
-        slide.setAttribute('aria-hidden', i === index ? 'false' : 'true');
-      });
-      dots.forEach(function (dot, i) {
-        dot.setAttribute('aria-current', i === index ? 'true' : 'false');
-      });
-    }
-
-    function stopAuto() {
-      if (timer) window.clearInterval(timer);
-      timer = null;
-    }
-
-    function startAuto() {
-      stopAuto();
-      if (!reduceMotion && isVisible && !isPaused && !document.hidden) {
-        timer = window.setInterval(function () { show(index + 1); }, 4500);
+    function play() {
+      var attempt = video.play();
+      if (attempt && attempt.catch) {
+        attempt.catch(function () { /* autoplay bloccato dal browser: resta il tasto play */ });
       }
     }
 
-    if (dotsBox) {
-      slides.forEach(function (slide, i) {
-        var caption = slide.querySelector('figcaption');
-        var dot = document.createElement('button');
-        dot.type = 'button';
-        dot.setAttribute('aria-label', 'Vedi ' + (caption ? caption.textContent : 'immagine ' + (i + 1)));
-        dot.addEventListener('click', function () { show(i); startAuto(); });
-        dotsBox.appendChild(dot);
-        dots.push(dot);
+    video.addEventListener('play', function () {
+      root.classList.add('is-playing');
+      if (toggleLabel) toggleLabel.textContent = 'Metti in pausa il video';
+    });
+
+    video.addEventListener('pause', function () {
+      root.classList.remove('is-playing');
+      if (toggleLabel) toggleLabel.textContent = 'Riproduci il video';
+    });
+
+    video.addEventListener('timeupdate', function () {
+      if (!bar || !video.duration) return;
+      bar.style.width = (video.currentTime / video.duration * 100).toFixed(2) + '%';
+    });
+
+    video.addEventListener('ended', function () {
+      if (bar) bar.style.width = '100%';
+      if (toggleLabel) toggleLabel.textContent = 'Rivedi il video';
+    });
+
+    if (toggle) {
+      toggle.addEventListener('click', function () {
+        if (video.ended) {
+          video.currentTime = 0;
+          play();
+        } else if (video.paused) {
+          play();
+        } else {
+          video.pause();
+        }
       });
     }
 
-    root.addEventListener('mouseenter', function () { isPaused = true; stopAuto(); });
-    root.addEventListener('mouseleave', function () { isPaused = false; startAuto(); });
-    root.addEventListener('focusin', function () { isPaused = true; stopAuto(); });
-    root.addEventListener('focusout', function () { isPaused = false; startAuto(); });
-    document.addEventListener('visibilitychange', startAuto);
+    if (sound) {
+      sound.addEventListener('click', function () {
+        video.muted = !video.muted;
+        sound.setAttribute('aria-pressed', video.muted ? 'false' : 'true');
+        /* alzare il volume su un video fermo equivale a chiederne la ripresa */
+        if (!video.muted && video.paused && !video.ended) play();
+      });
+    }
 
-    show(0);
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) video.pause();
+      else if (inView && !reduceMotion && !video.ended) play();
+    });
 
+    /* Una volta finito non riparte da solo a ogni rientro in viewport:
+       resta l'ultimo fotogramma con il tasto per rivederlo. */
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
-        isVisible = entries[0].isIntersecting;
-        startAuto();
-      }, { threshold: 0.35 }).observe(root);
-    } else {
-      isVisible = true;
-      startAuto();
+        inView = entries[0].isIntersecting;
+        if (!inView) {
+          video.pause();
+          return;
+        }
+        if (reduceMotion || video.ended) return;
+        play();
+      }, { threshold: 0.5 }).observe(root);
     }
   }
 
@@ -255,7 +269,7 @@
   }
 
   document.querySelectorAll('[data-carousel]').forEach(initCarousel);
-  document.querySelectorAll('[data-slideshow]').forEach(initSlideshow);
+  document.querySelectorAll('[data-shopvideo]').forEach(initShopVideo);
   document.querySelectorAll('[data-reel]').forEach(initReel);
 
   var year = document.querySelector('[data-year]');
